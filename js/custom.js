@@ -57,7 +57,7 @@ $(document).ready(function() {
       var coordenadas = lat + "," + long;
       console.log("Coordenadas: " + coordenadas);
       var tel_final = localStorage.getItem('tel_v');
-      var eventBody = "{\"phoneNumber\":\"" + numero + "\",\"latitude\":\"" + lat + "\",\"longitude\":\"" + long + "\"}";
+      var eventBody = "{\"phoneNumber\":\"" + tel_final + "\",\"latitude\":\"" + lat + "\",\"longitude\":\"" + long + "\"}";
       postbreeze(bfamily, btype, bversion, tel_final, endpoint, eventBody);
 
     };
@@ -117,7 +117,7 @@ $(document).ready(function() {
 
 
 
-function postbreeze(bfamily, btype, bversion, numero, endpoint, eventBody) {
+function postbreeze(bfamily, btype, bversion, tel_final, endpoint, eventBody) {
   var data = new FormData();
   data.append("family", bfamily);
   data.append("type", btype);
