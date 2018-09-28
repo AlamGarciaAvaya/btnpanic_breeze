@@ -56,7 +56,7 @@ $(document).ready(function() {
       var long = startPos.coords.longitude;
       var coordenadas = lat + "," + long;
       console.log("Coordenadas: " + coordenadas);
-
+      var tel_final = localStorage.getItem('tel_v');
       var eventBody = "{\"phoneNumber\":\"" + numero + "\",\"latitude\":\"" + lat + "\",\"longitude\":\"" + long + "\"}";
       postbreeze(bfamily, btype, bversion, tel_final, endpoint, eventBody);
 
