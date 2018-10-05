@@ -188,6 +188,7 @@ function postbreeze(bfamily, btype, bversion, tel_final, endpoint, eventBody) {
       error: function(xhr, status, errorThrown) {
         console.log("Ha ocurrido un error: ");
         console.log(xhr.statusText +" " +  xhr.status);
+        alert(" Ha ocurrido un error ! ");
 
 
   },
