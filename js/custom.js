@@ -6,15 +6,14 @@ $(document).ready(function() {
     $('#logger').append('<p>' + message + '</p>');
   };
  console.error = console.debug = console.info =  console.log
-
-
-  var tel_final = localStorage.getItem('tel_v');
+ var tel_final = localStorage.getItem('tel_v');
   var endpoint = localStorage.getItem('endpoint_v');
   var debugmode = localStorage.getItem('debug_v');
+  var agente = localStorage.getItem('agente_v');
+
 if (debugmode == null || debugmode == 0) {
 console.log("Debug Logger Desactivado");
 $("#output").hide();
-
 } else {
   console.log("Debug Logger Activado");
 }
@@ -36,10 +35,10 @@ $("#output").hide();
       $('input#endpoint').val("https://breeze2-213.collaboratory.avaya.com/services/EventingConnector/events");
     }, 3200);
   } else {
-    $('input#telefono').value = tel_final
-    $('input#endpoint').val(endpoint);
+    $("input#telefono").value = tel_final
+    $("input#endpoint").val(endpoint);
     $("select#debugmode").val(debugmode).change();
-
+    $("input#agente").val(agente);
 
   }
 
@@ -83,10 +82,13 @@ $("#output").hide();
     var formData = JSON.parse(JSON.stringify(jQuery('#ajustes-frm').serializeArray()))
     var tel_v = datos["0"].value;
     var endpoint_v = datos["1"].value;
-    var debug_v = datos["2"].value;
+    var debug_v = datos["3"].value;
+    var agente_v = datos["2"].value;
+    console.log(datos);
     localStorage.setItem("tel_v", tel_v);
     localStorage.setItem("endpoint_v", endpoint_v);
     localStorage.setItem("debug_v", debug_v);
+    localStorage.setItem("agente_v", agente_v);
     $('#modal-ajustes').modal('hide');
     $('#modal-informacion').modal({
                         backdrop: 'static',
@@ -96,7 +98,7 @@ $("#output").hide();
     $("#mensaje-modal").text("Tus ajustes se han guardado. Recargando");
     setTimeout(function() {
       location.reload(true);
-    }, 2000);
+    }, 5000);
 
 
   });
@@ -111,7 +113,10 @@ $("#output").hide();
       var coordenadas = lat + "," + long;
       console.log("Coordenadas: " + coordenadas);
       var tel_final = localStorage.getItem('tel_v');
-      var eventBody = "{\"phoneNumber\":\"" + tel_final + "\",\"latitude\":\"" + lat + "\",\"longitude\":\"" + long + "\"}";
+      var levelEl = $("span#level").text();
+//      var eventBody = "{\"phoneNumber\":\"" + tel_final + "\",\"latitude\":\"" + lat + "\",\"longitude\":\"" + long + "\"}";
+      var eventBody = "{\n\"phoneNumber\":\""+ tel_final +"\",\n\"latitude\":\"" + lat + "\",\n\"longitude\":\"" + long + "\",\n\"batteryPhone\":\""+ levelEl +"\", \n\"agentPhone\":\""+ agente +"\"\n}"
+
       postbreeze(bfamily, btype, bversion, tel_final, endpoint, eventBody);
 
     };
