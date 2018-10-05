@@ -23,8 +23,15 @@ $(document).ready(function() {
           location.reload(true);
     }, 3000);
 
-
   });
+
+
+  $( "#ajustes-btn" ).click(function() {
+    var tel_final = localStorage.getItem('tel_v');
+    $( "input#telefono" ).val(tel_final);
+    $('#modal-ajustes').modal('show');
+  });
+
 
   //EndPoint para petición Breeze
   var endpoint = "https://breeze2-213.collaboratory.avaya.com/services/EventingConnector/events";
