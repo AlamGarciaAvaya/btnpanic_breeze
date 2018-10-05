@@ -15,6 +15,8 @@
 button.close {
     visibility: hidden;
 }
+
+
   </style>
   <title>Avaya Breeze Salud</title>
 </head>
@@ -58,6 +60,21 @@ button.close {
             <div class="form-group">
               <label for="exampleInputEmail1">Tel&eacute;fono</label>
               <input type="tel" class="form-control" id="telefono" name="telefono" aria-describedby="emailHelp"  required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">EndPoint</label>
+              <input type="text" class="form-control" id="endpoint" name="endpoint" aria-describedby="emailHelp"  required>
+            </div>
+            <div class="form-group">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Debug Mode</label>
+                </div>
+                <select class="custom-select"  name="debugmode" id="debugmode">
+                  <option value="0">No</option>
+                  <option value="1">Si</option>
+                </select>
+              </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -112,16 +129,20 @@ button.close {
     </div>
   </div>
   <!-- Fin Modal -->
-  <h3>Debug</h3>
+
   <div id="output" class="output">
-    <div id="content">
-  <div><span id="warning"></span></div>
-  <div>Cargando: <span id="chargingState"></span></div>
-  <div>Tiempo de descarga: <span id="dischargeTime"></span></div>
-  <div>Nivel de Bateria: <span id="level"></span></div>
-  </div>
-    <div id="status"></div>
-    <pre id="log"></pre>
+    <pre id="logger"></pre>
+    <div id="output" class="output">
+      <div id="content">
+    <div><span id="warning"></span></div>
+    <div>Cargando?: <span id="chargingState"></span></div>
+    <div>Time de carga: <span id="chargingTime"></span></div>
+    <div>Tiempo para descargar: <span id="dischargeTime"></span></div>
+    <div>Bateria: <span id="level"></span></div>
+    </div>
+      <div id="status"></div>
+      <pre id="log"></pre>
+    </div>
   </div>
 
 

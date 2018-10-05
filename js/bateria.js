@@ -8,7 +8,6 @@ var levelEl = document.getElementById('level');
 
 function updateBatteryUI(battery) {
   levelEl.textContent = (battery.level * 100) + '%';
-  dichargeTimeEl.textContent = convertTime(battery.dischargingTime);
   console.log(convertTime(battery.dischargingTime));
   if (battery.charging === true) {
     chargingStateEl.textContent = 'Si';

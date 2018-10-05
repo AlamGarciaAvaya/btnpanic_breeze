@@ -1,40 +1,77 @@
 $(document).ready(function() {
 
+  console.olog = function(e) {};
+  console.log = function(message) {
+    console.olog(message);
+    $('#logger').append('<p>' + message + '</p>');
+  };
+ console.error = console.debug = console.info =  console.log
 
 
   var tel_final = localStorage.getItem('tel_v');
-  if ( tel_final === null ){
-    $('#modal-informacion').modal('show')
-    $("#mensaje-modal").text("Necesitas configurar esta aplicación para poder usarla, enseguida se abrirá la ventana de ajustes")
-    setTimeout(function() {
-      $('#modal-informacion').modal('hide')
-            $('#modal-ajustes').modal('show')
-    }, 4000);
-  }else {
-    $('input#telefono').value = tel_final
+  var endpoint = localStorage.getItem('endpoint_v');
+  var debugmode = localStorage.getItem('debug_v');
+if (debugmode == null || debugmode == 0) {
+console.log("Debug Logger Desactivado");
+$("#output").hide();
+
+} else {
+  console.log("Debug Logger Activado");
 }
 
-  $( "#limpiar-btn" ).click(function() {
-    $('#modal-ajustes').modal('hide')
-    localStorage.clear();
-    $('#modal-informacion').modal('show')
-    $("#mensaje-modal").text("Se han limpiado tus Ajustes.\nEsta página se actualizará automáticamente ")
+  if (tel_final === null ) {
+    $('#modal-informacion').modal({
+                        backdrop: 'static',
+                        keyboard: true,
+                        show: true
+                });
+    $("#mensaje-modal").text("Necesitas configurar esta aplicación para poder usarla, enseguida se abrirá la ventana de ajustes");
     setTimeout(function() {
-          location.reload(true);
-    }, 3000);
+      $('#modal-informacion').modal('hide');
+      $('#modal-ajustes').modal({
+                          backdrop: 'static',
+                          keyboard: true,
+                          show: true
+                  });
+      $('input#endpoint').val("https://breeze2-213.collaboratory.avaya.com/services/EventingConnector/events");
+    }, 3200);
+  } else {
+    $('input#telefono').value = tel_final
+    $('input#endpoint').val(endpoint);
+    $("select#debugmode").val(debugmode).change();
+
+
+  }
+
+  $("#limpiar-btn").click(function() {
+    $('#modal-ajustes').modal('hide');
+    localStorage.clear();
+    $('#modal-informacion').modal({
+                        backdrop: 'static',
+                        keyboard: true,
+                        show: true
+                });
+    $("#mensaje-modal").text("Se han limpiado tus Ajustes.\nEsta página se actualizará automáticamente ");
+    setTimeout(function() {
+      location.reload(true);
+    }, 2000);
 
   });
 
 
-  $( "#ajustes-btn" ).click(function() {
+  $("#ajustes-btn").click(function() {
     var tel_final = localStorage.getItem('tel_v');
-    $( "input#telefono" ).val(tel_final);
-    $('#modal-ajustes').modal('show');
+    $("input#telefono").val(tel_final);
+    $('#modal-ajustes').modal({
+                        backdrop: 'static',
+                        keyboard: true,
+                        show: true
+                });
   });
 
 
   //EndPoint para petición Breeze
-  var endpoint = "https://breeze2-213.collaboratory.avaya.com/services/EventingConnector/events";
+;
   var bfamily = "AAAMIACTC";
   var btype = "AAAMIACTCPANIC";
   var bversion = "1.0";
@@ -43,19 +80,29 @@ $(document).ready(function() {
   $("#ajustes-frm").submit(function() {
     event.preventDefault();
     var datos = $("#ajustes-frm").serializeArray();
+    var formData = JSON.parse(JSON.stringify(jQuery('#ajustes-frm').serializeArray()))
     var tel_v = datos["0"].value;
-    console.log(tel_v);
+    var endpoint_v = datos["1"].value;
+    var debug_v = datos["2"].value;
     localStorage.setItem("tel_v", tel_v);
-    $('#modal-ajustes').modal('hide')
-    $('#modal-informacion').modal('show')
-    $("#mensaje-modal").text("Tus ajustes se han guardado")
+    localStorage.setItem("endpoint_v", endpoint_v);
+    localStorage.setItem("debug_v", debug_v);
+    $('#modal-ajustes').modal('hide');
+    $('#modal-informacion').modal({
+                        backdrop: 'static',
+                        keyboard: true,
+                        show: true
+                });
+    $("#mensaje-modal").text("Tus ajustes se han guardado. Recargando");
     setTimeout(function() {
-      $('#modal-informacion').modal('hide')
-    }, 3000);
+      location.reload(true);
+    }, 2000);
+
+
   });
 
   if (navigator.geolocation) {
-    console.log('Soportado');
+    console.log('Geolocalizacion Activada, esperando evento');
     var startPos;
     var geoSuccess = function(position) {
       startPos = position;
@@ -130,12 +177,37 @@ function postbreeze(bfamily, btype, bversion, tel_final, endpoint, eventBody) {
   data.append("type", btype);
   data.append("version", bversion);
   data.append("eventBody", eventBody);
-  var xhr = new XMLHttpRequest();
-  xhr.addEventListener("readystatechange", function() {
-    if (this.readyState === 4) {
-      alert('Submit')
-    }
-  });
-  xhr.open("POST", endpoint);
-  xhr.send(data)
+  try {
+    var postdata = $.ajax({
+      url: endpoint,
+      type: "POST",
+      data:  data,
+      contentType: false,
+      cache: false,
+      processData:false,
+      error: function(xhr, status, errorThrown) {
+        console.log("Ha ocurrido un error: ");
+        console.log(xhr.statusText +" " +  xhr.status);
+
+
+  },
+        success: function (xhr, status, error, exception, event, options) {
+          console.log("Peticion Correcta");
+              console.log(status);
+              console.log(xhr.statusText);
+                alert(" Done ! ");
+
+        }
+    });
 }
+catch(err) {
+    console.log(err.message);
+}
+
+
+
+}
+
+
+// Testing
+console.log("Iniciando Logger");
