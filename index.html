@@ -112,17 +112,30 @@ button.close {
     </div>
   </div>
   <!-- Fin Modal -->
-
+  <h3>Debug</h3>
+  <div id="output" class="output">
+    <div id="content">
+  <div><span id="warning"></span></div>
+  <div>Cargando: <span id="chargingState"></span></div>
+  <div>Tiempo de descarga: <span id="dischargeTime"></span></div>
+  <div>Nivel de Bateria: <span id="level"></span></div>
+  </div>
+    <div id="status"></div>
+    <pre id="log"></pre>
+  </div>
 
 
 
   <footer class="container">
+
     <p>&copy;Avaya 2018</p>
+
   </footer>
 
   <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="js/custom.js"></script>
+  <script type="text/javascript" src="js/bateria.js"></script>
 </body>
 
 </html>
