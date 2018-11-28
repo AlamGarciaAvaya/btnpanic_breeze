@@ -118,9 +118,10 @@ $("#output").hide();
       console.log("Coordenadas: " + coordenadas);
       var tel_final = localStorage.getItem('tel_v');
       var idPhone = localStorage.getItem('idPhone_v');
+      var agente = localStorage.getItem('agente_v');
       var levelEl = $("span#level").text();
 //      var eventBody = "{\"phoneNumber\":\"" + tel_final + "\",\"latitude\":\"" + lat + "\",\"longitude\":\"" + long + "\"}";
-      var eventBody = "{\"phoneNumber\":\""+ tel_final +"\",\n\"latitude\":\""+ lat +"\", \n\"longitude\":\""+ long +"\",\n\"batteryPhone\": \""+ levelEl +"\",\n\"idPhone\":\""+ idPhone +"\"}";
+      var eventBody = "{\"phoneNumber\":\""+ tel_final +"\",\n\"latitude\":\""+ lat +"\", \n\"longitude\":\""+ long +"\",\n\"batteryPhone\": \""+ levelEl +"\",\n\"idPhone\":\""+ idPhone +"\", \n\"agentPhone\":\""+ long +"\"}";
       postbreeze(bfamily, btype, bversion, tel_final, endpoint, eventBody);
 
     };
