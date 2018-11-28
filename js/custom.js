@@ -84,14 +84,15 @@ $("#output").hide();
     var formData = JSON.parse(JSON.stringify(jQuery('#ajustes-frm').serializeArray()))
     var tel_v = datos["0"].value;
     var endpoint_v = datos["1"].value;
-    var debug_v = datos["3"].value;
     var agente_v = datos["2"].value;
+    var idPhone_v = datos["3"].value;
+    var debug_v = datos["4"].value;
     console.log(datos);
     localStorage.setItem("tel_v", tel_v);
     localStorage.setItem("endpoint_v", endpoint_v);
     localStorage.setItem("debug_v", debug_v);
     localStorage.setItem("agente_v", agente_v);
-    localStorage.setItem("idPhone_v", idPhone);
+    localStorage.setItem("idPhone_v", idPhone_v);
     $('#modal-ajustes').modal('hide');
     $('#modal-informacion').modal({
                         backdrop: 'static',
